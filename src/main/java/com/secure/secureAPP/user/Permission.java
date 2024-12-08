@@ -1,0 +1,7 @@
+package com.secure.secureAPP.user;
+
+public enum Permission {
+    MANAGE_USERS, FULL_ACCESS, MANAGE_ACCOUNTS,
+    APPROVE_TRANSACTIONS, VIEW_ALL_ACCOUNTS,
+    MANAGE_OWN_ACCOUNT, VIEW_OWN_ACCOUNT
+}
