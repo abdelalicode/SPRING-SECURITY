@@ -1,17 +1,20 @@
 package com.secure.secureAPP.user;
 
-public enum Permission {
-//    MANAGE_USERS, FULL_ACCESS, MANAGE_ACCOUNTS,
-//    APPROVE_TRANSACTIONS, VIEW_ALL_ACCOUNTS,
-//    MANAGE_OWN_ACCOUNT, VIEW_OWN_ACCOUNT,
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-    // SECURE APP DEMO PERMISSIONS
-    ADMIN_READ,
-    ADMIN_CREATE,
-    ADMIN_UPDATE,
-    ADMIN_DELETE,
-    EMPLOYEE_READ,
-    EMPLOYEE_CREATE,
-    EMPLOYEE_UPDATE,
-    EMPLOYEE_DELETE
+@Getter
+@RequiredArgsConstructor
+public enum Permission {
+
+    ADMIN_READ("admin:read"),
+    ADMIN_UPDATE("admin:update"),
+    ADMIN_CREATE("admin:create"),
+    ADMIN_DELETE("admin:delete"),
+    EMPLOYEE_READ("employee:read"),
+    EMPLOYEE_UPDATE("employee:update"),
+    EMPLOYEE_CREATE("employee:create"),
+    EMPLOYEE_DELETE("employee:delete");
+
+    private final String permission;
 }

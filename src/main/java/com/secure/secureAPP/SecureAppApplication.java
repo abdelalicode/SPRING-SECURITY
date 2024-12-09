@@ -8,6 +8,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import static com.secure.secureAPP.user.Role.ADMIN;
+import static com.secure.secureAPP.user.Role.EMPLOYEE;
+
 @SpringBootApplication
 public class SecureAppApplication {
 
@@ -27,7 +30,7 @@ public class SecureAppApplication {
 					.lastName("admin")
 					.email("admin@admin.admin")
 					.password("admin123")
-					.role(Role.ADMIN)
+					.role(ADMIN)
 					.build();
 			System.out.println("Admin Token: " + authenticationService.register(admin).getToken());
 
@@ -37,9 +40,9 @@ public class SecureAppApplication {
 					.lastName("employee")
 					.email("employee@employee.employee")
 					.password("employee123")
-					.role(Role.EMPLOYEE)
+					.role(EMPLOYEE)
 					.build();
-			System.out.println("Employee Token: " + authenticationService.register(admin).getToken());
+			System.out.println("Employee Token: " + authenticationService.register(employee).getToken());
 		};
 	}
 

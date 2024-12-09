@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -22,34 +24,29 @@ import static org.springframework.security.authorization.AuthenticatedAuthorizat
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@EnableMethodSecurity(securedEnabled = true
+)
+
 public class SecurityConfiguration {
 
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
-    private final TestFilter testFilter;
-
+    private static final String[] WHITE_LIST_URL = {"/api/v1/auth/**"};
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/v1/auth/**").permitAll()
-
-                        .requestMatchers("/api/v1/employee/**").hasAnyRole(ADMIN.name(), EMPLOYEE.name())
-
-                        .requestMatchers(GET, "/api/v1/employee/**").hasAnyAuthority(ADMIN_READ.name(), EMPLOYEE_READ.name())
-                        .requestMatchers(POST, "/api/v1/employee/**").hasAnyAuthority(ADMIN_CREATE.name(), EMPLOYEE_CREATE.name())
-                        .requestMatchers(PUT, "/api/v1/employee/**").hasAnyAuthority(ADMIN_UPDATE.name(), EMPLOYEE_UPDATE.name())
-                        .requestMatchers(DELETE, "/api/v1/employee/**").hasAnyAuthority(ADMIN_DELETE.name(), EMPLOYEE_DELETE.name())
-
-                        .requestMatchers(GET, "/api/v1/admin/**").hasAuthority(ADMIN_READ.name())
-                        .requestMatchers(POST, "/api/v1/admin/**").hasAuthority(ADMIN_CREATE.name())
-                        .requestMatchers(PUT, "/api/v1/admin/**").hasAuthority(ADMIN_UPDATE.name())
-                        .requestMatchers(DELETE, "/api/v1/admin/**").hasAuthority(ADMIN_DELETE.name())
-
-                        .requestMatchers("/api/v1/admin/**").hasAnyRole(ADMIN.name())
-                        .anyRequest().authenticated()
+                .authorizeHttpRequests(req ->
+                        req.requestMatchers(WHITE_LIST_URL)
+                                .permitAll()
+                                .requestMatchers("/api/v1/employee/**").hasAnyRole(ADMIN.name(), EMPLOYEE.name())
+                                .requestMatchers(GET, "/api/v1/employee/**").hasAnyAuthority(ADMIN_READ.name(), EMPLOYEE_READ.name())
+                                .requestMatchers(POST, "/api/v1/employee/**").hasAnyAuthority(ADMIN_CREATE.name(), EMPLOYEE_CREATE.name())
+                                .requestMatchers(PUT, "/api/v1/employee/**").hasAnyAuthority(ADMIN_UPDATE.name(), EMPLOYEE_UPDATE.name())
+                                .requestMatchers(DELETE, "/api/v1/employee/**").hasAnyAuthority(ADMIN_DELETE.name(), EMPLOYEE_DELETE.name())
+                                .anyRequest()
+                                .authenticated()
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
