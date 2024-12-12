@@ -14,14 +14,26 @@ spring:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
-logging:
-  level:
-    org.springframework.security: debug
 
-application:
   security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/SecureAPP
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
     jwt:
       secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
       expiration: 86400000
       refresh-token:
         expiration: 604800000
+server:
+  port: 8081
+
+jwt:
+  auth:
+    converter:
+      resource-id: Ebankify-rest-api
+      principle-attribute: detoyas
+
+
+

@@ -12,6 +12,13 @@ public class DemoController {
 
     @GetMapping
     ResponseEntity<String> sayHello() {
-        return ResponseEntity.ok("Hello World From Secured application");
+        return ResponseEntity.ok("Hello World From Secured application with keycloak");
     }
+
+
+    @GetMapping("/admin")
+    ResponseEntity<String> sayHelloFromAdmin() {
+        return ResponseEntity.ok("Hello World From Secured application With Admin role");
+    }
+
 }
