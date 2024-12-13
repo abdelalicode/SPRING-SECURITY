@@ -28,6 +28,11 @@ spring:
         expiration: 604800000
 server:
   port: 8081
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: azerty123
+    key-store-type: PKCS12
+    enabled: true
 
 jwt:
   auth:
